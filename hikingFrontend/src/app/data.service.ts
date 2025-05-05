@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {HikeDetail, ReviewDto, Tour, TourDetail} from './types';
+import {HikeDetail, Person, ReviewDto, Tour, TourDetail} from './types';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +23,10 @@ export class DataService {
   }
 
   postReview(hikeId: number, review: ReviewDto) {
-    return this.http.post(this.BASE_URL+"/review/hike/"+hikeId, review)
+    return this.http.post(this.BASE_URL+"/reviews/hike/"+hikeId, review)
+  }
+
+  getPeople() {
+    return this.http.get<Person[]>(this.BASE_URL+"/person")
   }
 }

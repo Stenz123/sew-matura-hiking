@@ -23,6 +23,7 @@ export interface Hike {
 }
 
 export interface HikeDetail{
+  "id": number
   "title": string
   "difficulty": Difficulty
   "length": number

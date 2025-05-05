@@ -7,6 +7,50 @@
   <p>Best rating: {{this.hike.bestRating}}</p>
   <p>Number of reviews: {{this.hike.numberOfReviews}}</p>
 
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>New Review</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="this.form" (ngSubmit)="this.onSubmit()">
+        <mat-form-field appearance="fill">
+          <mat-label>Person</mat-label>
+          <mat-select placeholder="Person" formControlName="person">
+            @for (person of this.people; track person) {
+              <mat-option [value]="person.id">{{ person.name }}</mat-option>
+            }
+          </mat-select>
+          @if (form.controls['person'].hasError('required')) {
+            <mat-error>Peson is <strong>required</strong></mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Rating</mat-label>
+          <input matInput type="number" formControlName="rating">
+          @if (form.controls['rating'].hasError('required')) {
+            <mat-error>Rating is <strong>required</strong></mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Comment</mat-label>
+          <input matInput type="text" formControlName="comment">
+          @if (form.controls['comment'].hasError('required')) {
+            <mat-error>Comment is <strong>required</strong></mat-error>
+          }
+        </mat-form-field>
+        <div class="button-row">
+          <button mat-raised-button color="primary"
+                  type="submit" [disabled]="this.form.invalid">
+            Post
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
   @for (review of hike?.hikeReviews; track hike?.hikeReviews){
     <app-review [review]="review"></app-review>
   } @empty {

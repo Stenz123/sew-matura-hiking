@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public record HikeSummaryDto (
+        Long id,
         String title,
         Difficulty difficulty,
         double length,
@@ -19,6 +20,7 @@ public record HikeSummaryDto (
 ){
     public static HikeSummaryDto fromHike(Hike hike) {
         return new HikeSummaryDto(
+                hike.id,
                 hike.title,
                 hike.difficulty,
                 hike.lengthInKm,
@@ -26,7 +28,7 @@ public record HikeSummaryDto (
                 hike.hikeReviews.stream().mapToDouble(review -> review.rating).average().orElse(0),
                 (int) hike.hikeReviews.stream().mapToDouble(review -> review.rating).max().orElse(0),
                 hike.hikeReviews.size(),
-                hike.hikeReviews
+                hike.hikeReviews.stream().sorted(Comparator.comparing((HikeReview r)->r.createdAt).reversed()).toList()
         );
     }
 

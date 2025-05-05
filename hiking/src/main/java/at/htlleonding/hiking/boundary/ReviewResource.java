@@ -3,6 +3,8 @@ package at.htlleonding.hiking.boundary;
 import at.htlleonding.hiking.dto.PostReviewDto;
 import at.htlleonding.hiking.model.Hike;
 import at.htlleonding.hiking.model.HikeReview;
+import at.htlleonding.hiking.websocket.ReviewWebsocket;
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -13,6 +15,7 @@ import java.util.List;
 
 @Path("/api/reviews")
 public class ReviewResource {
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("hike/{id}")
@@ -29,6 +32,7 @@ public class ReviewResource {
     public Response postReview(@PathParam("id") long id, PostReviewDto postReviewDto) {
         HikeReview hikeReview = postReviewDto.toReview(id);
         hikeReview.persist();
+        ReviewWebsocket.broadCast(hikeReview);
         return Response.status(Response.Status.CREATED).build();
     }
 }
