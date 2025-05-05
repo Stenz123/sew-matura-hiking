@@ -1,0 +1,15 @@
+@if (this.hike != null) {
+  <h1>{{this.hike.title}}</h1>
+  <p>Region: {{this.hike.region}}</p>
+  <p>Length: {{this.hike.length}} km</p>
+  <p>Difficulty: {{this.hike.difficulty}}</p>
+  <p>Average rating: {{this.hike.averageRating}}</p>
+  <p>Best rating: {{this.hike.bestRating}}</p>
+  <p>Number of reviews: {{this.hike.numberOfReviews}}</p>
+
+  @for (review of hike?.hikeReviews; track hike?.hikeReviews){
+    <app-review [review]="review"></app-review>
+  } @empty {
+    <p>Such empty</p>
+  }
+}
